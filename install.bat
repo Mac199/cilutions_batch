@@ -42,6 +42,9 @@ echo setlocal > "%myDIR%\settings.bat"
 rem turn off UAC
 echo reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
 
+rem turn on system protection
+echo reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" /v RPSessionInterval /t REG_DWORD /d 1 /f  >> "%myDIR%\settings.bat"
+
 rem disable fast user switching
 echo reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v HideFastUserSwitching /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 
@@ -67,8 +70,20 @@ rem IIS: Disable caching and logging
 rem echo c:\windows\system32\inetsrv\appcmd set config "Default Web Site/MediaSignage" -section:staticContent /clientCache.cacheControlMode:DisableCache >> "%myDIR%\settings.bat"
 echo c:\windows\system32\inetsrv\appcmd set config "Default Web Site/MediaSignage" /section:httpProtocol /+"customHeaders.[name='Cache-Control',value='no-cache, no-store, must-revalidate']" >> "%myDIR%\settings.bat"
 echo c:\windows\system32\inetsrv\appcmd set config /section:httpLogging /dontLog:True >> "%myDIR%\settings.bat"
+
+rem disable kernel cache
+echo c:\windows\system32\inetsrv\appcmd set config /section:caching /enableKernelCache:false >> "%myDIR%\settings.bat"
+
+rem fix click-jacking
+echo c:\windows\system32\inetsrv\appcmd set config "Default Web Site/MediaSignage" /section:httpProtocol /+"customHeaders.[name='X-Frame-Options',value='SAMEORIGIN']" >> "%myDIR%\settings.bat"
+
+rem file explorer settings
+echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Hidden /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
+echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" /v FullPath /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+
 rem add mediasignage virtual directories
-echo c:\windows\system32\inetsrv\appcmd add vdir /app.name:"Default Web Site/" /path:/MediaSignagvvv /physicalPath:C:\Users\MediaSignage\MediaSignage >> "%myDIR%\settings.bat"
+echo c:\windows\system32\inetsrv\appcmd add vdir /app.name:"Default Web Site/" /path:/MediaSignag /physicalPath:C:\Users\MediaSignage\MediaSignage >> "%myDIR%\settings.bat"
 rem Add IIS_IUSRS with Full permissions to MediaSignage and PDReceiver directories
 echo icacls "C:\Users\MediaSignage\MediaSignage" /grant IUSR:(OI)(CI)F /T >> "%myDIR%\settings.bat"
 echo icacls "C:\Users\MediaSignage\MediaSignage" /grant IIS_IUSRS:(OI)(CI)F /T >> "%myDIR%\settings.bat"
@@ -102,27 +117,38 @@ echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\
 rem IE Setting - Enable Memory Protection
 reg add "HKCU\SOFTWARE\Microsoft\Internet Explorer\Main" /v DEPOff /t REG_DWORD /d 0 /f
 echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Internet Explorer\Main\" /v DEPOff /t REG_DWORD /d 0 /f"
+
 rem IE Setting Disable IE 11 auto update
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+echo "" | runas /user:mediasignage /savecred "reg add \"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\" /v AUOptions /t REG_DWORD /d 1 /f"
+
 rem add localhost to favorites toolbar and make it visible
 rem IE Setting - add localhost to favorites toolbar 
-rem cp http://localhost/MediaSignage/content/current.html C:\Users\Support\Favorites\Favorites
 echo [InternetShortcut] > "C:\Users\Support\Favorites\Links\MediaSignage.URL"
 echo URL=http://localhost/MediaSignage/content/current.html>> "C:\Users\Support\Favorites\Links\MediaSignage.URL"
 echo IconIndex=0 >> "http://localhost/MediaSignage/content/current.html\MediaSignage.URL"
 rem IE Setting - always show favorites toolbar
-reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v AlwaysShowMenus /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
-reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v LinksBandEnabled /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+echo reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v AlwaysShowMenus /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+echo reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v LinksBandEnabled /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 
 rem IE Setting - delete browing history on exit
-reg add "HKCU\Software\Microsoft\Internet Explorer\Privacy" /v ClearBrowsingHistoryOnExit /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+echo reg add "HKCU\Software\Microsoft\Internet Explorer\Privacy" /v ClearBrowsingHistoryOnExit /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 
+rem days to keep pages in history
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Url History" /v DaysToKeep /t REG_DWORD /d 3 /f >> "%myDIR%\settings.bat"
+
+rem allow website caches and databases
+reg add "HKCU\Software\Microsoft\Internet Explorer\BrowserStorage\AppCache" /v AllowWebsiteCaches /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+reg add "HKCU\Software\Microsoft\Internet Explorer\BrowserStorage\IndexedDB" /v AllowWebsiteDatabases /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+
+rem reset zoom level for new windows and tabs
+reg add "HKCU\Software\Microsoft\Internet Explorer\Zoom" /v ResetZoomOnStartup2 /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 rem set background 
 reg add "HKCU\control panel\desktop" /v wallpaper /t REG_SZ /d "C:\Cilutions\Content\Abstract-background_16x9_1920x1080.png" /f >> "%myDIR%\settings.bat"
 rem set power seetings
 powercfg -SETACTIVE 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 powercfg.exe -change -monitor-timeout-ac 0
-powercfg.exe -change -monitor-timeout-dc 0
+powercfg.exe -change -monitor-timeout-dc 0  
 powercfg.exe -change -disk-timeout-ac 0
 powercfg.exe -change -disk-timeout-dc 0
 powercfg.exe -change -standby-timeout-ac 0
@@ -151,6 +177,7 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v CsEnabled /t REG_DWORD 
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v HibernateEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
 cp c:/cilutions/kts.ini c:/"program files"/kts.ini
 cp c:/cilutions/kts_allusers.bat c:/"program files"/kts/scripts/allusers.bat
+
 
 
 rem # patch installation ends here
