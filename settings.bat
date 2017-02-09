@@ -25,9 +25,11 @@ icacls "C:\Users\MediaSignage\Documents\PDReceiver" /grant IIS_IUSRS:(OI)(CI)F /
 powershell -executionpolicy bypass -File "C:\test\install.ps1" 
 cd c:\users\mediasignage\MediaSignage 
 cscript /nologo c:\users\mediasignage\MediaSignage/NetComment.vbs SET 
+The operation completed successfully.
 reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v AlwaysShowMenus /t REG_DWORD /d 1 /f 
 reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v LinksBandEnabled /t REG_DWORD /d 1 /f 
 reg add "HKCU\Software\Microsoft\Internet Explorer\Privacy" /v ClearBrowsingHistoryOnExit /t REG_DWORD /d 1 /f 
+The operation completed successfully.
 The operation completed successfully.
 The operation completed successfully.
 The operation completed successfully.

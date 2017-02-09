@@ -175,9 +175,13 @@ powercfg.exe -change -hibernate-timeout-ac 0
 powercfg.exe -change -hibernate-timeout-dc 0
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v CsEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v HibernateEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
-cp c:/cilutions/kts.ini c:/"program files"/kts.ini
-cp c:/cilutions/kts_allusers.bat c:/"program files"/kts/scripts/allusers.bat
+cp /cygdrive/c/cilutions/kts.ini /cygdrive/c/"program files"/kts.ini
+cp /cygdrive/c/cilutions/kts_allusers.bat /cygdrive/c/"program files"/kts/scripts/allusers.bat
 
+cp /cygdrive/c/Cilutions/Logout.lnk /cygdrive/c/Users/Support/AppData/Roaming/Microsoft/Windows/"Start Menu"/Programs
+cp /cygdrive/c/Cilutions/"Network Connections".lnk /cygdrive/c/Users/Support/AppData/Roaming/Microsoft/Windows/"Start Menu"/Programs
+rem get rid of the logon background image
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System"  /v DisableLogonBackgroundImage /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 
-
-rem # patch installation ends here
+rem add finstall
+cp /cygdrive/c/Cilutions/finstall.bat /cygdrive/c/Users/MediaSignage/Documents/PDReceiver/load

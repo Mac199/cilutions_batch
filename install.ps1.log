@@ -1519,3 +1519,16 @@ Process ID: 2836
 Windows PowerShell transcript end
 End time: 20170209114922
 **********************
+**********************
+Windows PowerShell transcript start
+Start time: 20170209161535
+Username: HS850\Support
+RunAs User: HS850\Support
+Machine: HS850 (Microsoft Windows NT 6.3.9600.0)
+Host Application: powershell -executionpolicy bypass -File C:\test\install.ps1
+Process ID: 4468
+**********************
+**********************
+Windows PowerShell transcript end
+End time: 20170209161545
+**********************
