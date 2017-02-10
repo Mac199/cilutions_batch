@@ -17,7 +17,7 @@ c:\windows\system32\inetsrv\appcmd set config "Default Web Site/MediaSignage" /s
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Hidden /t REG_DWORD /d 1 /f 
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 0 /f 
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" /v FullPath /t REG_DWORD /d 1 /f 
-c:\windows\system32\inetsrv\appcmd add vdir /app.name:"Default Web Site/" /path:/MediaSignag /physicalPath:C:\Users\MediaSignage\MediaSignage 
+c:\windows\system32\inetsrv\appcmd add vdir /app.name:"Default Web Site/" /path:/MediaSignage /physicalPath:C:\Users\MediaSignage\MediaSignage 
 icacls "C:\Users\MediaSignage\MediaSignage" /grant IUSR:(OI)(CI)F /T 
 icacls "C:\Users\MediaSignage\MediaSignage" /grant IIS_IUSRS:(OI)(CI)F /T 
 icacls "C:\Users\MediaSignage\Documents\PDReceiver" /grant IUSR:(OI)(CI)F /T 
@@ -37,3 +37,13 @@ The operation completed successfully.
 The operation completed successfully.
 The operation completed successfully.
 The operation completed successfully.
+reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\db\ /f  
+reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_EVT /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\db\ /f  
+reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_DEFAULT_DEST /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\load\ /f  
+reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_LOAD /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\temphold\ /f  
+reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_UPDATE_DEST /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\update\ /f  
+reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_WWW_ROOT /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\wwwroot\ /f  
+reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v LAUNCH_IMMEDIATELY /t REG_SZ /d 1 /f  
+reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v USE_LONG_FILE_NAME_IN_FINSTALL /t REG_SZ /d 1 /f  
+reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_GET_LOCAL_ADDRESS /t REG_SZ /d 1 /f  
+reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v DISABLEPROGRESSMETER /t REG_SZ /d 1 /f  

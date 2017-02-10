@@ -44,7 +44,7 @@ echo reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v
 
 rem turn on system protection
 echo reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" /v RPSessionInterval /t REG_DWORD /d 1 /f  >> "%myDIR%\settings.bat"
-
+echo vssadmin resize shadowstorage /for=c: /on=c: /maxsize=3%
 rem disable fast user switching
 echo reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v HideFastUserSwitching /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 
@@ -83,7 +83,7 @@ echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" 
 echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" /v FullPath /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 
 rem add mediasignage virtual directories
-echo c:\windows\system32\inetsrv\appcmd add vdir /app.name:"Default Web Site/" /path:/MediaSignag /physicalPath:C:\Users\MediaSignage\MediaSignage >> "%myDIR%\settings.bat"
+echo c:\windows\system32\inetsrv\appcmd add vdir /app.name:"Default Web Site/" /path:/MediaSignage /physicalPath:C:\Users\MediaSignage\MediaSignage >> "%myDIR%\settings.bat"
 rem Add IIS_IUSRS with Full permissions to MediaSignage and PDReceiver directories
 echo icacls "C:\Users\MediaSignage\MediaSignage" /grant IUSR:(OI)(CI)F /T >> "%myDIR%\settings.bat"
 echo icacls "C:\Users\MediaSignage\MediaSignage" /grant IIS_IUSRS:(OI)(CI)F /T >> "%myDIR%\settings.bat"
@@ -134,8 +134,9 @@ echo reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v LinksBandEnabl
 rem IE Setting - delete browing history on exit
 echo reg add "HKCU\Software\Microsoft\Internet Explorer\Privacy" /v ClearBrowsingHistoryOnExit /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 
+
 rem days to keep pages in history
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Url History" /v DaysToKeep /t REG_DWORD /d 3 /f >> "%myDIR%\settings.bat"
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Url History" /v DaysToKeep /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 
 rem allow website caches and databases
 reg add "HKCU\Software\Microsoft\Internet Explorer\BrowserStorage\AppCache" /v AllowWebsiteCaches /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
@@ -185,3 +186,22 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System"  /v DisableLogonBackgr
 
 rem add finstall
 cp /cygdrive/c/Cilutions/finstall.bat /cygdrive/c/Users/MediaSignage/Documents/PDReceiver/load
+
+rem install PDReceiver change registry setting
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\db\ /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_EVT /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\db\ /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_DEFAULT_DEST /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\load\ /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_LOAD /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\temphold\ /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_UPDATE_DEST /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\update\ /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_WWW_ROOT /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\wwwroot\ /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v LAUNCH_IMMEDIATELY /t REG_SZ /d 1 /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v USE_LONG_FILE_NAME_IN_FINSTALL /t REG_SZ /d 1 /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_GET_LOCAL_ADDRESS /t REG_SZ /d 1 /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v DISABLEPROGRESSMETER /t REG_SZ /d 1 /f  >> "%myDIR%\settings.bat"
+
+rem diable windows auto update
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+
+rem disable windows indexing
+net stop Wsearch
+
