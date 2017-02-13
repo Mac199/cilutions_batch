@@ -26,16 +26,6 @@ powershell -executionpolicy bypass -File "C:\test\install.ps1"
 cd c:\users\mediasignage\MediaSignage 
 cscript /nologo c:\users\mediasignage\MediaSignage/NetComment.vbs SET 
 The operation completed successfully.
-reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v AlwaysShowMenus /t REG_DWORD /d 1 /f 
-reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v LinksBandEnabled /t REG_DWORD /d 1 /f 
-reg add "HKCU\Software\Microsoft\Internet Explorer\Privacy" /v ClearBrowsingHistoryOnExit /t REG_DWORD /d 1 /f 
-The operation completed successfully.
-The operation completed successfully.
-The operation completed successfully.
-The operation completed successfully.
-The operation completed successfully.
-The operation completed successfully.
-The operation completed successfully.
 The operation completed successfully.
 reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\db\ /f  
 reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_EVT /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\db\ /f  
@@ -47,3 +37,18 @@ reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v LAUNCH_IMMEDIATELY 
 reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v USE_LONG_FILE_NAME_IN_FINSTALL /t REG_SZ /d 1 /f  
 reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_GET_LOCAL_ADDRESS /t REG_SZ /d 1 /f  
 reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v DISABLEPROGRESSMETER /t REG_SZ /d 1 /f  
+echo [InternetShortcut] > "C:\Users\Support\Favorites\links\MediaSignage.URL" 
+echo URL=http://localhost/MediaSignage/content/current.html >> "C:\Users\Support\Favorites\Links\MediaSignage.URL" 
+echo  IconIndex=0 >> "C:\Users\Support\Favorites\Links\MediaSignage.URL" 
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v CsEnabled /t REG_DWORD /d 0 /f 
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v HibernateEnabled /t REG_DWORD /d 0 /f 
+cp /cygdrive/c/cilutions/kts.ini /cygdrive/c/"program files"/kts.ini 
+cp /cygdrive/c/cilutions/kts_allusers.bat /cygdrive/c/"program files"/kts/scripts/allusers.bat 
+cp /cygdrive/c/Cilutions/Logout.lnk /cygdrive/c/Users/Support/AppData/Roaming/Microsoft/Windows/"Start Menu"/Programs 
+cp /cygdrive/c/Cilutions/"Network Connections".lnk /cygdrive/c/Users/Support/AppData/Roaming/Microsoft/Windows/"Start Menu"/Programs 
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System"  /v DisableLogonBackgroundImage /t REG_DWORD /d 1 /f 
+cp /cygdrive/c/Cilutions/finstall.bat /cygdrive/c/Users/MediaSignage/Documents/PDReceiver/load 
+reg add "HKLM\SYSTEM\CurrentControlSet\services\bthserv" /v Start /t REG_DWORD /d 4 /f 
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 1 /f 
+netsh interface set interface "wi-fi" disabled 
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 1 /f 

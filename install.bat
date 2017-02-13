@@ -32,6 +32,7 @@ echo UAC.ShellExecute "%myDIR%/upgrade_wwwroot.bat", "", "", "runas", 0 >> "upgr
 
 
 
+
 rem ****** Create settings.vbs and settings.bat to run commands with elevated privileges *****
 echo Set UAC = CreateObject^("Shell.Application"^) > "settings.vbs"
 echo UAC.ShellExecute "%myDIR%/settings.bat", "", "", "runas", 0 >> "settings.vbs"
@@ -97,8 +98,58 @@ rem Update Machine Description with the new version
 echo cd %signageDIR% >> "%myDIR%\settings.bat"
 echo cscript /nologo %signageDIR%/NetComment.vbs SET >> "%myDIR%\settings.bat"
 
+rem allow website caches and databases
+reg add "HKCU\Software\Microsoft\Internet Explorer\BrowserStorage\AppCache" /v AllowWebsiteCaches /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+reg add "HKCU\Software\Microsoft\Internet Explorer\BrowserStorage\IndexedDB" /v AllowWebsiteDatabases /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+
+rem install PDReceiver change registry setting
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\db\ /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_EVT /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\db\ /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_DEFAULT_DEST /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\load\ /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_LOAD /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\temphold\ /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_UPDATE_DEST /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\update\ /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_WWW_ROOT /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\wwwroot\ /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v LAUNCH_IMMEDIATELY /t REG_SZ /d 1 /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v USE_LONG_FILE_NAME_IN_FINSTALL /t REG_SZ /d 1 /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_GET_LOCAL_ADDRESS /t REG_SZ /d 1 /f  >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v DISABLEPROGRESSMETER /t REG_SZ /d 1 /f  >> "%myDIR%\settings.bat"
+
+rem add localhost to favorites toolbar and make it visible
+rem IE Setting - add localhost to favorites toolbar 
+echo IE SETTINGS SHOTCUTS
+
+
+echo echo [InternetShortcut] ^> "C:\Users\Support\Favorites\links\MediaSignage.URL" >> "%myDIR%\settings.bat"
+echo echo URL=http://localhost/MediaSignage/content/current.html ^>^> "C:\Users\Support\Favorites\Links\MediaSignage.URL" >> "%myDIR%\settings.bat"
+echo echo  IconIndex=0 ^>^> "C:\Users\Support\Favorites\Links\MediaSignage.URL" >> "%myDIR%\settings.bat"
+echo  IE SETTINGS SHOTCUTS END
+
+echo reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v CsEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
+echo reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v HibernateEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
+
+echo cp /cygdrive/c/cilutions/kts.ini /cygdrive/c/"program files"/kts.ini >> "%myDIR%\settings.bat"
+echo cp /cygdrive/c/cilutions/kts_allusers.bat /cygdrive/c/"program files"/kts/scripts/allusers.bat >> "%myDIR%\settings.bat"
+echo cp /cygdrive/c/Cilutions/Logout.lnk /cygdrive/c/Users/Support/AppData/Roaming/Microsoft/Windows/"Start Menu"/Programs >> "%myDIR%\settings.bat"
+echo cp /cygdrive/c/Cilutions/"Network Connections".lnk /cygdrive/c/Users/Support/AppData/Roaming/Microsoft/Windows/"Start Menu"/Programs >> "%myDIR%\settings.bat"
+
+rem get rid of the logon background image
+echo reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System"  /v DisableLogonBackgroundImage /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+
+rem add finstall
+echo cp /cygdrive/c/Cilutions/finstall.bat /cygdrive/c/Users/MediaSignage/Documents/PDReceiver/load >> "%myDIR%\settings.bat"
+
+rem disable bluetooth
+echo reg add "HKLM\SYSTEM\CurrentControlSet\services\bthserv" /v Start /t REG_DWORD /d 4 /f >> "%myDIR%\settings.bat"
+rem disableantispyware = 1
+echo reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+rem turn wifi off
+echo netsh interface set interface "wi-fi" disabled >> "%myDIR%\settings.bat"
+
+rem IE Setting Disable IE 11 auto update
+echo reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 rem Run elevated set up
 if exist "%myDIR%\settings.bat" runas /user:support /savecred "wscript \"%myDIR%/settings.vbs \""
+
 rem IE Settings
 rem IE Setting - Display Mixed Content = enabled for all zones
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\0" /v 1609 /t REG_DWORD /d 0 /f
@@ -111,41 +162,29 @@ echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\
 echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\2\" /v 1609 /t REG_DWORD /d 0 /f"
 echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3\" /v 1609 /t REG_DWORD /d 0 /f"
 echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\4\" /v 1609 /t REG_DWORD /d 0 /f"
+
 rem IE Setting - Enable "Do Not Track" request
 reg add "HKCU\SOFTWARE\Microsoft\Internet Explorer\Main" /v DoNotTrack /t REG_DWORD /d 1 /f
 echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Internet Explorer\Main\" /v DoNotTrack /t REG_DWORD /d 1 /f"
+
 rem IE Setting - Enable Memory Protection
 reg add "HKCU\SOFTWARE\Microsoft\Internet Explorer\Main" /v DEPOff /t REG_DWORD /d 0 /f
 echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Internet Explorer\Main\" /v DEPOff /t REG_DWORD /d 0 /f"
 
-rem IE Setting Disable IE 11 auto update
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
-echo "" | runas /user:mediasignage /savecred "reg add \"HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\" /v AUOptions /t REG_DWORD /d 1 /f"
-
-rem add localhost to favorites toolbar and make it visible
-rem IE Setting - add localhost to favorites toolbar 
-echo [InternetShortcut] > "C:\Users\Support\Favorites\Links\MediaSignage.URL"
-echo URL=http://localhost/MediaSignage/content/current.html>> "C:\Users\Support\Favorites\Links\MediaSignage.URL"
-echo IconIndex=0 >> "http://localhost/MediaSignage/content/current.html\MediaSignage.URL"
 rem IE Setting - always show favorites toolbar
-echo reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v AlwaysShowMenus /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
-echo reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v LinksBandEnabled /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v AlwaysShowMenus /t REG_DWORD /d 1 /f 
+reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v LinksBandEnabled /t REG_DWORD /d 1 /f 
 
 rem IE Setting - delete browing history on exit
-echo reg add "HKCU\Software\Microsoft\Internet Explorer\Privacy" /v ClearBrowsingHistoryOnExit /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
-
+reg add "HKCU\Software\Microsoft\Internet Explorer\Privacy" /v ClearBrowsingHistoryOnExit /t REG_DWORD /d 1 /f
 
 rem days to keep pages in history
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Url History" /v DaysToKeep /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
-
-rem allow website caches and databases
-reg add "HKCU\Software\Microsoft\Internet Explorer\BrowserStorage\AppCache" /v AllowWebsiteCaches /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
-reg add "HKCU\Software\Microsoft\Internet Explorer\BrowserStorage\IndexedDB" /v AllowWebsiteDatabases /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Url History" /v DaysToKeep /t REG_DWORD /d 1 /f
 
 rem reset zoom level for new windows and tabs
-reg add "HKCU\Software\Microsoft\Internet Explorer\Zoom" /v ResetZoomOnStartup2 /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+reg add "HKCU\Software\Microsoft\Internet Explorer\Zoom" /v ResetZoomOnStartup2 /t REG_DWORD /d 1 /f 
 rem set background 
-reg add "HKCU\control panel\desktop" /v wallpaper /t REG_SZ /d "C:\Cilutions\Content\Abstract-background_16x9_1920x1080.png" /f >> "%myDIR%\settings.bat"
+reg add "HKCU\control panel\desktop" /v wallpaper /t REG_SZ /d "C:\Cilutions\Content\Abstract-background_16x9_1920x1080.png" /f
 rem set power seetings
 powercfg -SETACTIVE 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 powercfg.exe -change -monitor-timeout-ac 0
@@ -174,34 +213,6 @@ powercfg.exe -change -standby-timeout-ac 0
 powercfg.exe -change -standby-timeout-dc 0
 powercfg.exe -change -hibernate-timeout-ac 0
 powercfg.exe -change -hibernate-timeout-dc 0
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v CsEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v HibernateEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
-cp /cygdrive/c/cilutions/kts.ini /cygdrive/c/"program files"/kts.ini
-cp /cygdrive/c/cilutions/kts_allusers.bat /cygdrive/c/"program files"/kts/scripts/allusers.bat
-
-cp /cygdrive/c/Cilutions/Logout.lnk /cygdrive/c/Users/Support/AppData/Roaming/Microsoft/Windows/"Start Menu"/Programs
-cp /cygdrive/c/Cilutions/"Network Connections".lnk /cygdrive/c/Users/Support/AppData/Roaming/Microsoft/Windows/"Start Menu"/Programs
-rem get rid of the logon background image
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System"  /v DisableLogonBackgroundImage /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
-
-rem add finstall
-cp /cygdrive/c/Cilutions/finstall.bat /cygdrive/c/Users/MediaSignage/Documents/PDReceiver/load
-
-rem install PDReceiver change registry setting
-echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\db\ /f  >> "%myDIR%\settings.bat"
-echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_EVT /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\db\ /f  >> "%myDIR%\settings.bat"
-echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_DEFAULT_DEST /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\load\ /f  >> "%myDIR%\settings.bat"
-echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_LOAD /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\temphold\ /f  >> "%myDIR%\settings.bat"
-echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_UPDATE_DEST /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\update\ /f  >> "%myDIR%\settings.bat"
-echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_SFX_WWW_ROOT /t REG_SZ /d C:\Users\MediaSignage\Documents\PDReceiver\wwwroot\ /f  >> "%myDIR%\settings.bat"
-echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v LAUNCH_IMMEDIATELY /t REG_SZ /d 1 /f  >> "%myDIR%\settings.bat"
-echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v USE_LONG_FILE_NAME_IN_FINSTALL /t REG_SZ /d 1 /f  >> "%myDIR%\settings.bat"
-echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_GET_LOCAL_ADDRESS /t REG_SZ /d 1 /f  >> "%myDIR%\settings.bat"
-echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v DISABLEPROGRESSMETER /t REG_SZ /d 1 /f  >> "%myDIR%\settings.bat"
-
-rem diable windows auto update
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 
 rem disable windows indexing
 net stop Wsearch
-
