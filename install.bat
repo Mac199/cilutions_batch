@@ -76,7 +76,7 @@ rem disable kernel cache
 echo c:\windows\system32\inetsrv\appcmd set config /section:caching /enableKernelCache:false >> "%myDIR%\settings.bat"
 
 rem fix click-jacking
-echo c:\windows\system32\inetsrv\appcmd set config "Default Web Site/MediaSignage" /section:httpProtocol /+"customHeaders.[name='X-Frame-Options',value='SAMEORIGIN']" >> "%myDIR%\settings.bat"
+echo c:\windows\system32\inetsrv\appcmd set config "Default Web Site" /section:httpProtocol /+"customHeaders.[name='X-Frame-Options',value='SAMEORIGIN']" >> "%myDIR%\settings.bat"
 
 rem file explorer settings
 echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Hidden /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
@@ -154,6 +154,9 @@ rem IE Setting Disable IE 11 auto update
 echo reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 rem grant MediaSignage user EPD service access
 echo "C:\Program Files\Windows Resource Kits\Tools\subinacl" /service EPDReceiver /grant=MediaSignage=TOP  >> "%myDIR%\settings.bat"
+
+rem disable TCP timestamp response
+echo reg add "HKLM\SYSTEM\CurrentControlSet\services\TCPip\Parameters" /v Tcp1323Opts /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
 rem Run elevated set up
 if exist "%myDIR%\settings.bat" runas /user:support /savecred "wscript \"%myDIR%/settings.vbs \""
 

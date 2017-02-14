@@ -13,7 +13,7 @@ wmic useraccount where name='mediasignage' set FullName=MediaSignage
 c:\windows\system32\inetsrv\appcmd set config "Default Web Site/MediaSignage" /section:httpProtocol /+"customHeaders.[name='Cache-Control',value='no-cache, no-store, must-revalidate']" 
 c:\windows\system32\inetsrv\appcmd set config /section:httpLogging /dontLog:True 
 c:\windows\system32\inetsrv\appcmd set config /section:caching /enableKernelCache:false 
-c:\windows\system32\inetsrv\appcmd set config "Default Web Site/MediaSignage" /section:httpProtocol /+"customHeaders.[name='X-Frame-Options',value='SAMEORIGIN']" 
+c:\windows\system32\inetsrv\appcmd set config "Default Web Site" /section:httpProtocol /+"customHeaders.[name='X-Frame-Options',value='SAMEORIGIN']" 
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Hidden /t REG_DWORD /d 1 /f 
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 0 /f 
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" /v FullPath /t REG_DWORD /d 1 /f 
@@ -56,3 +56,4 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpywar
 netsh interface set interface "wi-fi" disabled 
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 1 /f 
 "C:\Program Files\Windows Resource Kits\Tools\subinacl" /service EPDReceiver /grant=MediaSignage=TOP  
+reg add "HKLM\SYSTEM\CurrentControlSet\services\TCPip\Parameters" /v Tcp1323Opts /t REG_DWORD /d 0 /f 
