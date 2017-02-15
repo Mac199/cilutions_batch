@@ -37,12 +37,12 @@ reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v LAUNCH_IMMEDIATELY 
 reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v USE_LONG_FILE_NAME_IN_FINSTALL /t REG_SZ /d 1 /f  
 reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v SFS_GET_LOCAL_ADDRESS /t REG_SZ /d 1 /f  
 reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v DISABLEPROGRESSMETER /t REG_SZ /d 1 /f  
-echo [InternetShortcut] > "C:\Users\MediaSignage\Favorites\links\MediaSignage.URL" 
-echo URL=http://localhost/MediaSignage/content/current.html >> "C:\Users\MediaSignage\Favorites\Links\MediaSignage.URL" 
-echo  IconIndex=0 >> "C:\Users\MediaSignage\Favorites\Links\MediaSignage.URL" 
-echo [InternetShortcut] > "C:\Users\Support\Favorites\links\MediaSignage.URL" 
-echo URL=http://localhost/MediaSignage/content/current.html >> "C:\Users\Support\Favorites\Links\MediaSignage.URL" 
-echo  IconIndex=0 >> "C:\Users\Support\Favorites\Links\MediaSignage.URL" 
+echo [InternetShortcut] > "C:\Users\MediaSignage\Favorites\links\Hughes Digital Signage.URL" 
+echo URL=http://localhost/MediaSignage/content/current.html >> "C:\Users\MediaSignage\Favorites\Links\Hughes Digital Signage.URL" 
+echo  IconIndex=0 >> "C:\Users\MediaSignage\Favorites\Links\Hughes Digital Signage.URL" 
+echo [InternetShortcut] > "C:\Users\Support\Favorites\links\Hughes Digital Signage.URL" 
+echo URL=http://localhost/MediaSignage/content/current.html >> "C:\Users\Support\Favorites\Links\Hughes Digital Signage.URL" 
+echo  IconIndex=0 >> "C:\Users\Support\Favorites\Links\Hughes Digital Signage.URL" 
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v CsEnabled /t REG_DWORD /d 0 /f 
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v HibernateEnabled /t REG_DWORD /d 0 /f 
 cp /cygdrive/c/cilutions/kts.ini /cygdrive/c/"program files"/kts.ini 
@@ -54,6 +54,8 @@ cp /cygdrive/c/Cilutions/finstall.bat /cygdrive/c/Users/MediaSignage/Documents/P
 reg add "HKLM\SYSTEM\CurrentControlSet\services\bthserv" /v Start /t REG_DWORD /d 4 /f 
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 1 /f 
 netsh interface set interface "wi-fi" disabled 
+net user Support jerich0 /add 
+net localgroup administrators [Support] /add 
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 1 /f 
 "C:\Program Files\Windows Resource Kits\Tools\subinacl" /service EPDReceiver /grant=MediaSignage=TOP  
 reg add "HKLM\SYSTEM\CurrentControlSet\services\TCPip\Parameters" /v Tcp1323Opts /t REG_DWORD /d 0 /f 

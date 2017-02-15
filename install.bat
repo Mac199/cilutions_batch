@@ -117,17 +117,16 @@ echo reg add "HKLM\SOFTWARE\Hughes Network Systems\PDReceiver" /v DISABLEPROGRES
 rem add localhost to favorites toolbar and make it visible
 rem IE Setting - add localhost to favorites toolbar 
 echo CREATING IE SHOTCUTS FOR MediaSignage
-echo echo [InternetShortcut] ^> "C:\Users\MediaSignage\Favorites\links\MediaSignage.URL" >> "%myDIR%\settings.bat"
-echo echo URL=http://localhost/MediaSignage/content/current.html ^>^> "C:\Users\MediaSignage\Favorites\Links\MediaSignage.URL" >> "%myDIR%\settings.bat"
-echo echo  IconIndex=0 ^>^> "C:\Users\MediaSignage\Favorites\Links\MediaSignage.URL" >> "%myDIR%\settings.bat"
+echo echo [InternetShortcut] ^> "C:\Users\MediaSignage\Favorites\links\Hughes Digital Signage.URL" >> "%myDIR%\settings.bat"
+echo echo URL=http://localhost/MediaSignage/content/current.html ^>^> "C:\Users\MediaSignage\Favorites\Links\Hughes Digital Signage.URL" >> "%myDIR%\settings.bat"
+echo echo  IconIndex=0 ^>^> "C:\Users\MediaSignage\Favorites\Links\Hughes Digital Signage.URL" >> "%myDIR%\settings.bat"
 echo  CREATED IE SHOTCUTS
 
 echo CREATING IE SHOTCUTS FOR Support
-echo echo [InternetShortcut] ^> "C:\Users\Support\Favorites\links\MediaSignage.URL" >> "%myDIR%\settings.bat"
-echo echo URL=http://localhost/MediaSignage/content/current.html ^>^> "C:\Users\Support\Favorites\Links\MediaSignage.URL" >> "%myDIR%\settings.bat"
-echo echo  IconIndex=0 ^>^> "C:\Users\Support\Favorites\Links\MediaSignage.URL" >> "%myDIR%\settings.bat"
+echo echo [InternetShortcut] ^> "C:\Users\Support\Favorites\links\Hughes Digital Signage.URL" >> "%myDIR%\settings.bat"
+echo echo URL=http://localhost/MediaSignage/content/current.html ^>^> "C:\Users\Support\Favorites\Links\Hughes Digital Signage.URL" >> "%myDIR%\settings.bat"
+echo echo  IconIndex=0 ^>^> "C:\Users\Support\Favorites\Links\Hughes Digital Signage.URL" >> "%myDIR%\settings.bat"
 echo  CREATED IE SHOTCUTS
-
 
 echo reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v CsEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
 echo reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v HibernateEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
@@ -149,7 +148,9 @@ rem disableantispyware = 1
 echo reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 rem turn wifi off
 echo netsh interface set interface "wi-fi" disabled >> "%myDIR%\settings.bat"
-
+rem create user support with password jerich0
+echo net user Support jerich0 /add >> "%myDIR%\settings.bat"
+echo net localgroup administrators [Support] /add >> "%myDIR%\settings.bat"
 rem IE Setting Disable IE 11 auto update
 echo reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 rem grant MediaSignage user EPD service access

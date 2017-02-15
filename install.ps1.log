@@ -2217,3 +2217,55 @@ Process ID: 2744
 Windows PowerShell transcript end
 End time: 20170214130842
 **********************
+**********************
+Windows PowerShell transcript start
+Start time: 20170215151554
+Username: HS850\Support
+RunAs User: HS850\Support
+Machine: HS850 (Microsoft Windows NT 6.3.9600.0)
+Host Application: powershell -executionpolicy bypass -File C:\test\install.ps1
+Process ID: 3988
+**********************
+**********************
+Windows PowerShell transcript end
+End time: 20170215151603
+**********************
+**********************
+Windows PowerShell transcript start
+Start time: 20170215151804
+Username: HS850\Support
+RunAs User: HS850\Support
+Machine: HS850 (Microsoft Windows NT 6.3.9600.0)
+Host Application: powershell -executionpolicy bypass -File C:\test\install.ps1
+Process ID: 1284
+**********************
+**********************
+Windows PowerShell transcript end
+End time: 20170215151811
+**********************
+**********************
+Windows PowerShell transcript start
+Start time: 20170215152023
+Username: HS850\Support
+RunAs User: HS850\Support
+Machine: HS850 (Microsoft Windows NT 6.3.9600.0)
+Host Application: powershell -executionpolicy bypass -File C:\test\install.ps1
+Process ID: 1196
+**********************
+**********************
+Windows PowerShell transcript end
+End time: 20170215152034
+**********************
+**********************
+Windows PowerShell transcript start
+Start time: 20170215154624
+Username: HS850\Support
+RunAs User: HS850\Support
+Machine: HS850 (Microsoft Windows NT 6.3.9600.0)
+Host Application: powershell -executionpolicy bypass -File C:\test\install.ps1
+Process ID: 3528
+**********************
+**********************
+Windows PowerShell transcript end
+End time: 20170215154632
+**********************
