@@ -139,6 +139,8 @@ echo cp /cygdrive/c/cilutions/kts_allusers.bat /cygdrive/c/"program files"/kts/s
 echo cp /cygdrive/c/Cilutions/Logout.lnk /cygdrive/c/Users/Support/AppData/Roaming/Microsoft/Windows/"Start Menu"/Programs >> "%myDIR%\settings.bat"
 echo cp /cygdrive/c/Cilutions/"Network Connections".lnk /cygdrive/c/Users/Support/AppData/Roaming/Microsoft/Windows/"Start Menu"/Programs >> "%myDIR%\settings.bat"
 
+rem allow use of a blank password for runas command
+echo reg add "HKLM\system\currentcontrolset\control\lsa"  /v limitblankpassworduse /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
 rem get rid of the logon background image
 echo reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System"  /v DisableLogonBackgroundImage /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 
@@ -151,6 +153,9 @@ rem disableantispyware = 1
 echo reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 rem turn wifi off
 echo netsh interface set interface "wi-fi" disabled >> "%myDIR%\settings.bat"
+
+rem disable windows defender
+echo reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware  /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 rem create user support with password jerich0
 echo net user Support jerich0 /add >> "%myDIR%\settings.bat"
 echo net localgroup administrators [Support] /add >> "%myDIR%\settings.bat"
@@ -164,7 +169,11 @@ echo reg add "HKLM\SYSTEM\CurrentControlSet\services\TCPip\Parameters" /v Tcp132
 
 rem set anonymous authentication to the user support
 echo c:\windows\system32\inetsrv\appcmd set config /section:anonymousAuthentication /enabled:True >> "%myDIR%\settings.bat"
-
+rem configure ctl+alt+del menu
+echo START CONFIG CTL ALT DEL
+echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableChangePassword /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+ECHO END 
 rem Run elevated set up
 if exist "%myDIR%\settings.bat" runas /user:support /savecred "wscript \"%myDIR%/settings.vbs \""
 
@@ -238,3 +247,4 @@ powercfg.exe -change -hibernate-timeout-dc 0
 
 rem disable windows indexing
 net stop Wsearch
+
