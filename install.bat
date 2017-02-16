@@ -90,7 +90,10 @@ echo icacls "C:\Users\MediaSignage\MediaSignage" /grant IUSR:(OI)(CI)F /T >> "%m
 echo icacls "C:\Users\MediaSignage\MediaSignage" /grant IIS_IUSRS:(OI)(CI)F /T >> "%myDIR%\settings.bat"
 echo icacls "C:\Users\MediaSignage\Documents\PDReceiver" /grant IUSR:(OI)(CI)F /T >> "%myDIR%\settings.bat"
 echo icacls "C:\Users\MediaSignage\Documents\PDReceiver" /grant IIS_IUSRS:(OI)(CI)F /T >> "%myDIR%\settings.bat"
- 
+
+rem add MediaSignage user to PDR directories with full permissions require reboot
+echo icacls "C:\Program Files\Hughes Network Systems\PDReceiver" /grant HS850\MediaSignage:(OI)(CI)F /T >> "%myDIR%\settings.bat"
+
 rem Reset Network adapter power options (disable sleep)
 echo powershell -executionpolicy bypass -File "%myDIR%\install.ps1" >> "%myDIR%\settings.bat"
 
@@ -158,6 +161,10 @@ echo "C:\Program Files\Windows Resource Kits\Tools\subinacl" /service EPDReceive
 
 rem disable TCP timestamp response
 echo reg add "HKLM\SYSTEM\CurrentControlSet\services\TCPip\Parameters" /v Tcp1323Opts /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
+
+rem set anonymous authentication to the user support
+echo c:\windows\system32\inetsrv\appcmd set config /section:anonymousAuthentication /enabled:True >> "%myDIR%\settings.bat"
+
 rem Run elevated set up
 if exist "%myDIR%\settings.bat" runas /user:support /savecred "wscript \"%myDIR%/settings.vbs \""
 
@@ -188,7 +195,11 @@ reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v LinksBandEnabled /t
 
 rem IE Setting - delete browing history on exit
 reg add "HKCU\Software\Microsoft\Internet Explorer\Privacy" /v ClearBrowsingHistoryOnExit /t REG_DWORD /d 1 /f
-
+rem temporary internet files
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v SyncMode5 /t REG_DWORD /d 3 /f
+rem disk space to use = 8 require to reboot 
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\Cache\Content" /v CacheLimit /t REG_DWORD /d 8192 /f
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\Cache" /v ContentLimit /t REG_DWORD /d 8 /f
 rem days to keep pages in history
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Url History" /v DaysToKeep /t REG_DWORD /d 1 /f
 

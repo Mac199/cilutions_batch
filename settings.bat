@@ -22,6 +22,7 @@ icacls "C:\Users\MediaSignage\MediaSignage" /grant IUSR:(OI)(CI)F /T
 icacls "C:\Users\MediaSignage\MediaSignage" /grant IIS_IUSRS:(OI)(CI)F /T 
 icacls "C:\Users\MediaSignage\Documents\PDReceiver" /grant IUSR:(OI)(CI)F /T 
 icacls "C:\Users\MediaSignage\Documents\PDReceiver" /grant IIS_IUSRS:(OI)(CI)F /T 
+icacls "C:\Program Files\Hughes Network Systems\PDReceiver" /grant HS850\MediaSignage:(OI)(CI)F /T 
 powershell -executionpolicy bypass -File "C:\test\install.ps1" 
 cd c:\users\mediasignage\MediaSignage 
 cscript /nologo c:\users\mediasignage\MediaSignage/NetComment.vbs SET 
@@ -59,3 +60,4 @@ net localgroup administrators [Support] /add
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUOptions /t REG_DWORD /d 1 /f 
 "C:\Program Files\Windows Resource Kits\Tools\subinacl" /service EPDReceiver /grant=MediaSignage=TOP  
 reg add "HKLM\SYSTEM\CurrentControlSet\services\TCPip\Parameters" /v Tcp1323Opts /t REG_DWORD /d 0 /f 
+c:\windows\system32\inetsrv\appcmd set config /section:anonymousAuthentication /enabled:True 
