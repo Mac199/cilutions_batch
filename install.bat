@@ -173,6 +173,7 @@ rem configure ctl+alt+del menu
 echo START CONFIG CTL ALT DEL
 echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableChangePassword /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
+echo DIABLETASKMGR
 ECHO END 
 rem Run elevated set up
 if exist "%myDIR%\settings.bat" runas /user:support /savecred "wscript \"%myDIR%/settings.vbs \""
@@ -184,38 +185,45 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\2" /v 1609 /t REG_DWORD /d 0 /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3" /v 1609 /t REG_DWORD /d 0 /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\4" /v 1609 /t REG_DWORD /d 0 /f
-echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\0\" /v 1609 /t REG_DWORD /d 0 /f"
-echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\1\" /v 1609 /t REG_DWORD /d 0 /f"
-echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\2\" /v 1609 /t REG_DWORD /d 0 /f"
-echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3\" /v 1609 /t REG_DWORD /d 0 /f"
-echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\4\" /v 1609 /t REG_DWORD /d 0 /f"
+echo "" | runas /user:support /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\0\" /v 1609 /t REG_DWORD /d 0 /f"
+echo "" | runas /user:support /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\1\" /v 1609 /t REG_DWORD /d 0 /f"
+echo "" | runas /user:support /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\2\" /v 1609 /t REG_DWORD /d 0 /f"
+echo "" | runas /user:support /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3\" /v 1609 /t REG_DWORD /d 0 /f"
+echo "" | runas /user:support /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\4\" /v 1609 /t REG_DWORD /d 0 /f"
 
 rem IE Setting - Enable "Do Not Track" request
 reg add "HKCU\SOFTWARE\Microsoft\Internet Explorer\Main" /v DoNotTrack /t REG_DWORD /d 1 /f
-echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Internet Explorer\Main\" /v DoNotTrack /t REG_DWORD /d 1 /f"
+echo "" | runas /user:support /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Internet Explorer\Main\" /v DoNotTrack /t REG_DWORD /d 1 /f"
 
 rem IE Setting - Enable Memory Protection
 reg add "HKCU\SOFTWARE\Microsoft\Internet Explorer\Main" /v DEPOff /t REG_DWORD /d 0 /f
-echo "" | runas /user:mediasignage /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Internet Explorer\Main\" /v DEPOff /t REG_DWORD /d 0 /f"
+echo "" | runas /user:support /savecred "reg add \"HKCU\SOFTWARE\Microsoft\Internet Explorer\Main\" /v DEPOff /t REG_DWORD /d 0 /f"
 
 rem IE Setting - always show favorites toolbar
 reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v AlwaysShowMenus /t REG_DWORD /d 1 /f 
 reg add "HKCU\Software\Microsoft\Internet Explorer\MINIE" /v LinksBandEnabled /t REG_DWORD /d 1 /f 
-
+echo  RUNAS SUPPORT TO SHOW TOOLBAT
+echo "" | runas /user:support /savecred "reg add \"HKCU\Software\Microsoft\Internet Explorer\MINIE\" /v AlwaysShowMenus /t REG_DWORD /d 1 /f"
+echo "" | runas /user:support /savecred "reg add \"HKCU\Software\Microsoft\Internet Explorer\MINIE\" /v LinksBandEnabled /t REG_DWORD /d 1 /f"
 rem IE Setting - delete browing history on exit
 reg add "HKCU\Software\Microsoft\Internet Explorer\Privacy" /v ClearBrowsingHistoryOnExit /t REG_DWORD /d 1 /f
+echo "" | runas /user:support /savecred "reg add \"HKCU\Software\Microsoft\Internet Explorer\Privacy\" /v ClearBrowsingHistoryOnExit /t REG_DWORD /d 1 /f"
 rem temporary internet files
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v SyncMode5 /t REG_DWORD /d 3 /f
+echo "" | runas /user:support /savecred "reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\" /v SyncMode5 /t REG_DWORD /d 3 /f"
 rem disk space to use = 8 require to reboot 
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\Cache\Content" /v CacheLimit /t REG_DWORD /d 8192 /f
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\Cache" /v ContentLimit /t REG_DWORD /d 8 /f
+echo "" | runas /user:support /savecred "reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\5.0\Cache\Content\" /v CacheLimit /t REG_DWORD /d 8192 /f"
 rem days to keep pages in history
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Url History" /v DaysToKeep /t REG_DWORD /d 1 /f
-
+echo "" | runas /user:support /savecred "reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Url History\" /v DaysToKeep /t REG_DWORD /d 1 /f"
 rem reset zoom level for new windows and tabs
 reg add "HKCU\Software\Microsoft\Internet Explorer\Zoom" /v ResetZoomOnStartup2 /t REG_DWORD /d 1 /f 
+echo "" | runas /user:support /savecred "reg add \"HKCU\Software\Microsoft\Internet Explorer\Zoom\" /v ResetZoomOnStartup2 /t REG_DWORD /d 1 /f"
 rem set background 
 reg add "HKCU\control panel\desktop" /v wallpaper /t REG_SZ /d "C:\Cilutions\Content\Abstract-background_16x9_1920x1080.png" /f
+echo "" | runas /user:support /savecred "reg add \"HKCU\control panel\desktop\" /v wallpaper /t REG_SZ /d \"C:\Cilutions\Content\Abstract-background_16x9_1920x1080.png\" /f"
 rem set power seetings
 powercfg -SETACTIVE 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 powercfg.exe -change -monitor-timeout-ac 0
