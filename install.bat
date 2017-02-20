@@ -224,6 +224,17 @@ echo "" | runas /user:support /savecred "reg add \"HKCU\Software\Microsoft\Inter
 rem set background 
 reg add "HKCU\control panel\desktop" /v wallpaper /t REG_SZ /d "C:\Cilutions\Content\Abstract-background_16x9_1920x1080.png" /f
 echo "" | runas /user:support /savecred "reg add \"HKCU\control panel\desktop\" /v wallpaper /t REG_SZ /d \"C:\Cilutions\Content\Abstract-background_16x9_1920x1080.png\" /f"
+rem display full path in the title bar
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" /V FullPath /t REG_DWORD /d 1 /f
+echo "" | runas /user:support /savecred "reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState\" /V FullPath /t REG_DWORD /d 1 /f"
+
+rem show hidden files, folders and drives
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Hidden /t REG_DWORD /d 1 /f 
+echo "" | runas /user:support /savecred "reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Hidden /t REG_DWORD /d 1 /f"
+
+rem show hide extensions for known file types
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 0 /f 
+echo "" | runas /user:support /savecred "reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" /v HideFileExt /t REG_DWORD /d 0 /f "
 rem set power seetings
 powercfg -SETACTIVE 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 powercfg.exe -change -monitor-timeout-ac 0
@@ -255,4 +266,3 @@ powercfg.exe -change -hibernate-timeout-dc 0
 
 rem disable windows indexing
 net stop Wsearch
-
