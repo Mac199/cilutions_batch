@@ -131,6 +131,9 @@ echo echo URL=http://localhost/MediaSignage/content/current.html ^>^> "C:\Users\
 echo echo  IconIndex=0 ^>^> "C:\Users\Support\Favorites\Links\Hughes Digital Signage.URL" >> "%myDIR%\settings.bat"
 echo  CREATED IE SHOTCUTS
 
+echo echo [InternetShortcut] ^>^> "C:\Users\Support\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\test.lnk" >> "%myDIR%\settings.bat"
+echo echo URL = "C:\Users\MediaSignage\MediaSignage\MediaSignageHWDetect.exe" ^>^> "C:\Users\Support\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\test.lnk" >> "%myDIR%\settings.bat"
+
 echo reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v CsEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
 echo reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v HibernateEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
 
@@ -175,6 +178,8 @@ echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v
 echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 echo DIABLETASKMGR
 ECHO END 
+
+
 rem Run elevated set up
 if exist "%myDIR%\settings.bat" runas /user:support /savecred "wscript \"%myDIR%/settings.vbs \""
 
@@ -266,3 +271,4 @@ powercfg.exe -change -hibernate-timeout-dc 0
 
 rem disable windows indexing
 net stop Wsearch
+
