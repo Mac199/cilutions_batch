@@ -44,8 +44,6 @@ echo  IconIndex=0 >> "C:\Users\MediaSignage\Favorites\Links\Hughes Digital Signa
 echo [InternetShortcut] > "C:\Users\Support\Favorites\links\Hughes Digital Signage.URL" 
 echo URL=http://localhost/MediaSignage/content/current.html >> "C:\Users\Support\Favorites\Links\Hughes Digital Signage.URL" 
 echo  IconIndex=0 >> "C:\Users\Support\Favorites\Links\Hughes Digital Signage.URL" 
-echo [InternetShortcut] >> "C:\Users\Support\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\test.lnk" 
-echo URL = "C:\Users\MediaSignage\MediaSignage\MediaSignageHWDetect.exe" >> "C:\Users\Support\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\test.lnk" 
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v CsEnabled /t REG_DWORD /d 0 /f 
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v HibernateEnabled /t REG_DWORD /d 0 /f 
 cp /cygdrive/c/cilutions/kts.ini /cygdrive/c/"program files"/kts.ini 
@@ -66,4 +64,4 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Updat
 reg add "HKLM\SYSTEM\CurrentControlSet\services\TCPip\Parameters" /v Tcp1323Opts /t REG_DWORD /d 0 /f 
 c:\windows\system32\inetsrv\appcmd set config /section:anonymousAuthentication /enabled:True 
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableChangePassword /t REG_DWORD /d 1 /f 
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /t REG_DWORD /d 1 /f 
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /t REG_DWORD /d 1 /f  

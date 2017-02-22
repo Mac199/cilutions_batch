@@ -131,9 +131,6 @@ echo echo URL=http://localhost/MediaSignage/content/current.html ^>^> "C:\Users\
 echo echo  IconIndex=0 ^>^> "C:\Users\Support\Favorites\Links\Hughes Digital Signage.URL" >> "%myDIR%\settings.bat"
 echo  CREATED IE SHOTCUTS
 
-echo echo [InternetShortcut] ^>^> "C:\Users\Support\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\test.lnk" >> "%myDIR%\settings.bat"
-echo echo URL = "C:\Users\MediaSignage\MediaSignage\MediaSignageHWDetect.exe" ^>^> "C:\Users\Support\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\test.lnk" >> "%myDIR%\settings.bat"
-
 echo reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v CsEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
 echo reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v HibernateEnabled /t REG_DWORD /d 0 /f >> "%myDIR%\settings.bat"
 
@@ -175,10 +172,7 @@ echo c:\windows\system32\inetsrv\appcmd set config /section:anonymousAuthenticat
 rem configure ctl+alt+del menu
 echo START CONFIG CTL ALT DEL
 echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableChangePassword /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
-echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
-echo DIABLETASKMGR
-ECHO END 
-
+echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat" 
 
 rem Run elevated set up
 if exist "%myDIR%\settings.bat" runas /user:support /savecred "wscript \"%myDIR%/settings.vbs \""
@@ -240,6 +234,16 @@ echo "" | runas /user:support /savecred "reg add "HKCU\Software\Microsoft\Window
 rem show hide extensions for known file types
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 0 /f 
 echo "" | runas /user:support /savecred "reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" /v HideFileExt /t REG_DWORD /d 0 /f "
+
+rem disable task manager for mediasignage account
+echo "" | runas /user:support /savecred "reg add \"HKU\S-1-5-21-3233044722-3133934814-3270949968-1004\Software\Microsoft\Windows\CurrentVersion\Policies\System\" /v DisableTaskMgr /t REG_DWORD /d 0 /f"
+
+rem shell launcher configuration
+rem echo "" | runas /user:support /savecred "reg add \"HKU\S-1-5-21-3233044722-3133934814-3270949968-1004\Software\Microsoft\Windows\CurrentVersion\Policies\System\" /v Shell /t REG_SZ /d c:\windows\system32\wscript.exe\" \"\h\inv.vbs /f"
+
+rem show computer icon
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v {20D04FE0-3AEA-1069-A2D8-08002B30309D} /t REG_DWORD /d 0 /f
+
 rem set power seetings
 powercfg -SETACTIVE 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 powercfg.exe -change -monitor-timeout-ac 0
@@ -271,4 +275,4 @@ powercfg.exe -change -hibernate-timeout-dc 0
 
 rem disable windows indexing
 net stop Wsearch
-
+regedit
