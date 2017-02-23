@@ -170,10 +170,14 @@ echo reg add "HKLM\SYSTEM\CurrentControlSet\services\TCPip\Parameters" /v Tcp132
 rem set anonymous authentication to the user support
 echo c:\windows\system32\inetsrv\appcmd set config /section:anonymousAuthentication /enabled:True >> "%myDIR%\settings.bat"
 rem configure ctl+alt+del menu
-echo START CONFIG CTL ALT DEL
 echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableChangePassword /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat"
 echo reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /t REG_DWORD /d 1 /f >> "%myDIR%\settings.bat" 
 
+rem enable Ruby CGI
+echo CGI
+echo c:\windows\system32\inetsrv\appcmd set config "Default Web Site" /section:system.webServer/handlers /+"[name='CGI_rb',path='*.rb',modules='CgiModule',scriptProcessor='C:\Ruby193\bin\ruby.exe "%s"',verb='GET,HEAD,POST,DEBUG,PUT,DELETE',resourceType='File']" >> "%myDIR%\settings.bat"
+echo c:\windows\system32\inetsrv\appcmd set config "Default Web Site" /section:system.webServer/handlers /+"[name='CGI_cgi',path='*.cgi',modules='CgiModule',scriptProcessor='C:\Ruby193\bin\ruby.exe',verb='GET,HEAD,POST,DEBUG,PUT,DELETE',resourceType='File']" >> "%myDIR%\settings.bat"
+echo CGI ENDS
 rem Run elevated set up
 if exist "%myDIR%\settings.bat" runas /user:support /savecred "wscript \"%myDIR%/settings.vbs \""
 
@@ -275,4 +279,5 @@ powercfg.exe -change -hibernate-timeout-dc 0
 
 rem disable windows indexing
 net stop Wsearch
-regedit
+
+

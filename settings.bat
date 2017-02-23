@@ -65,3 +65,5 @@ reg add "HKLM\SYSTEM\CurrentControlSet\services\TCPip\Parameters" /v Tcp1323Opts
 c:\windows\system32\inetsrv\appcmd set config /section:anonymousAuthentication /enabled:True 
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableChangePassword /t REG_DWORD /d 1 /f 
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /t REG_DWORD /d 1 /f  
+c:\windows\system32\inetsrv\appcmd set config "Default Web Site" /section:system.webServer/handlers /+"[name='CGI',path='*.rb',modules='CgiModule',scriptProcessor='C:\Ruby193\bin\ruby.exe',verb='GET,HEAD,POST,DEBUG,PUT,DELETE',resourceType='File']" 
+c:\windows\system32\inetsrv\appcmd set config "Default Web Site" /section:system.webServer/handlers /+"[name='CGI',path='*.cgi',modules='CgiModule',scriptProcessor='C:\Ruby193\bin\ruby.exe',verb='GET,HEAD,POST,DEBUG,PUT,DELETE',resourceType='File']" 
