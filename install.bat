@@ -178,6 +178,11 @@ echo CGI
 echo c:\windows\system32\inetsrv\appcmd set config "Default Web Site" /section:system.webServer/handlers /+"[name='CGI_rb',path='*.rb',modules='CgiModule',scriptProcessor='C:\Ruby193\bin\ruby.exe "%s"',verb='GET,HEAD,POST,DEBUG,PUT,DELETE',resourceType='File']" >> "%myDIR%\settings.bat"
 echo c:\windows\system32\inetsrv\appcmd set config "Default Web Site" /section:system.webServer/handlers /+"[name='CGI_cgi',path='*.cgi',modules='CgiModule',scriptProcessor='C:\Ruby193\bin\ruby.exe',verb='GET,HEAD,POST,DEBUG,PUT,DELETE',resourceType='File']" >> "%myDIR%\settings.bat"
 echo CGI ENDS
+
+rem run MediaSignageHWDetect on Support login
+echo AAA
+echo SHORTCUT -t "C:\Users\MediaSignage\MediaSignage\MediaSignageHWDetect.exe" -f "C:\Users\Support\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\qunimade" >> "%myDIR%\settings.bat"
+echo BBB
 rem Run elevated set up
 if exist "%myDIR%\settings.bat" runas /user:support /savecred "wscript \"%myDIR%/settings.vbs \""
 
@@ -280,4 +285,5 @@ powercfg.exe -change -hibernate-timeout-dc 0
 rem disable windows indexing
 net stop Wsearch
 
-
+rem create directory c:\TEMP
+mkdir c:\Temp
