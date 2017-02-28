@@ -180,9 +180,7 @@ echo c:\windows\system32\inetsrv\appcmd set config "Default Web Site" /section:s
 echo CGI ENDS
 
 rem run MediaSignageHWDetect on Support login
-echo AAA
-echo SHORTCUT -t "C:\Users\MediaSignage\MediaSignage\MediaSignageHWDetect.exe" -f "C:\Users\Support\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\qunimade" >> "%myDIR%\settings.bat"
-echo BBB
+echo powershell "$s=(New-Object -COM WScript.Shell).CreateShortcut('C:\Users\Support\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MediaSignageHWDetect.lnk');$s.TargetPath='C:\Users\MediaSignage\MediaSignage\MediaSignageHWDetect.exe';$s.Save()" >> "%myDIR%\settings.bat"
 rem Run elevated set up
 if exist "%myDIR%\settings.bat" runas /user:support /savecred "wscript \"%myDIR%/settings.vbs \""
 
@@ -245,7 +243,7 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Hi
 echo "" | runas /user:support /savecred "reg add \"HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" /v HideFileExt /t REG_DWORD /d 0 /f "
 
 rem disable task manager for mediasignage account
-echo "" | runas /user:support /savecred "reg add \"HKU\S-1-5-21-3233044722-3133934814-3270949968-1004\Software\Microsoft\Windows\CurrentVersion\Policies\System\" /v DisableTaskMgr /t REG_DWORD /d 0 /f"
+echo "" | runas /user:support /savecred "reg add \"HKU\S-1-5-21-3233044722-3133934814-3270949968-1004\Software\Microsoft\Windows\CurrentVersion\Policies\System\" /v DisableTaskMgr /t REG_DWORD /d 1 /f"
 
 rem shell launcher configuration
 rem echo "" | runas /user:support /savecred "reg add \"HKU\S-1-5-21-3233044722-3133934814-3270949968-1004\Software\Microsoft\Windows\CurrentVersion\Policies\System\" /v Shell /t REG_SZ /d c:\windows\system32\wscript.exe\" \"\h\inv.vbs /f"

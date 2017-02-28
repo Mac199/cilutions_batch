@@ -66,5 +66,4 @@ c:\windows\system32\inetsrv\appcmd set config /section:anonymousAuthentication /
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableChangePassword /t REG_DWORD /d 1 /f 
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /t REG_DWORD /d 1 /f  
 c:\windows\system32\inetsrv\appcmd set config "Default Web Site" /section:system.webServer/handlers /+"[name='CGI_cgi',path='*.cgi',modules='CgiModule',scriptProcessor='C:\Ruby193\bin\ruby.exe',verb='GET,HEAD,POST,DEBUG,PUT,DELETE',resourceType='File']" 
-MD "C:\Users\Support\AppData\Roaming\Microsoft\Windows\Start Menu\Programs" 
-SHORTCUT -t "C:\Users\MediaSignage\MediaSignage\MediaSignageHWDetect.exe" -f "C:\Users\Support\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\qunimade" 
+powershell "$s=(New-Object -COM WScript.Shell).CreateShortcut('C:\Users\Support\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\MediaSignageHWDetect.lnk');$s.TargetPath='C:\Users\MediaSignage\MediaSignage\MediaSignageHWDetect.exe';$s.Save()" 
